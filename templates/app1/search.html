@@ -1,0 +1,32 @@
+{% extends './base.html' %}
+{% load static %}
+{% block content %}
+
+<h2> Search results : </h2>
+<br>{{product_count}} products found 
+<br>
+<br>
+
+<div class="card-group">
+
+    {% if products %}
+        {% for product in products %}
+        <div class="card">
+            <a href="product/{{product.id}}">
+                <img src="{{product.image.url}}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{product.name}}</h5>
+                    <p class="card-text">{{product.description}}</p>
+                    <p class="card-text"><small class="text-muted">{{product.updated_at}}</small></p>
+                </div>
+            </a>
+            </div>
+        {% endfor %}
+    {% else %}
+
+    <h3>No products found</h3>
+    
+    {% endif %}
+    
+  </div>
+{% endblock content %}

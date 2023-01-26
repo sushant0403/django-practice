@@ -1,0 +1,58 @@
+{% extends './base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="card-group">
+    <div class="card">
+      <img src="{{product.image.url}}" class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title">{{product.name}}</h5>
+        <p class="card-text">{{product.description}}</p>
+        <p class="card-text"><i class="fa fa-star"></i> {{product.averagereview}}({{product.countreview}})</p>
+        <p class="card-text"><small class="text-muted">{{product.updated_at}}</small></p>
+      </div>
+    </div>
+  </div>
+  {% if request.user.is_authenticated %}
+                
+      <form action="{% url 'comment_add_view' product.id %}" method="POST" >
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Rating</label>
+            <select name="rating" id="rating">
+              <option value="1.0">1</option>
+              <option value="2.0">2</option>
+              <option value="3.0">3</option>
+              <option value="4.0">4</option>
+              <option value="5.0">5</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Comment</label>
+            <input type="text" class="form-control" id="exampleInputPassword1" name="comment">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+  {% else %}
+
+  <p>login to add comment<p>
+  
+  {% endif %}
+
+  {% for comment in comments %}
+    <div style="display:flex;">
+      <div>
+        <i class="fa fa-user"></i>
+        <p>{{comment.user.username}}</p>
+      </div>
+      <p class="card-text"><i class="fa fa-star"></i> {{comment.rating}}</p>
+      <div style="width:60%;">
+      <div class="" style="border:2px solid gray; border-radius:5px;width:100%; height:auto;">
+          <p>{{comment.comment}}</p>
+      </div>
+      <p>{{comment.updated_date}}</p>
+    </div>
+    </div>
+  {% endfor %}
+
+{% endblock content %}
